@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f3f3f0">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="/assets/zhizhi.png">
+  <link rel="stylesheet" href="/knowknow/app/app.css?v=20261028-path">
+  <title>网页版｜知知</title>
+</head>
+<body data-auth="loading">
+  <div class="workspace">
+    <header class="workspace-bar">
+      <a class="brand" href="/knowknow/" aria-label="知知官网"><img src="/assets/zhizhi-char.png" width="36" height="28" alt=""><strong>知知</strong></a>
+      <span class="workspace-name">我的笔记</span>
+      <button id="profile-button" class="profile-button" type="button" aria-label="个人信息">
+        <img src="/assets/icons/user.svg" alt=""><span>个人信息</span>
+      </button>
+      <span id="connection-state" class="connection-state" role="status">正在连接…</span>
+      <button id="session-button" class="session-button" type="button">微信登录</button>
+    </header>
+
+    <aside class="vault-pane" aria-label="笔记目录">
+      <div class="pane-heading"><div><span class="pane-eyebrow">笔记</span><h1>笔记目录</h1></div><span id="note-count" class="count">0</span></div>
+      <label class="search-box"><img src="/assets/icons/search.svg" alt=""><input id="note-search" type="search" placeholder="搜索笔记标题或内容…" maxlength="128" autocomplete="off"><span class="sr-only">搜索笔记</span></label>
+      <div class="tree-tools">
+        <button id="new-folder" type="button" title="新建目录" aria-label="新建目录"><img src="/assets/icons/folder-plus.svg" alt=""></button>
+        <button id="new-note" type="button" title="新建笔记" aria-label="新建笔记"><img src="/assets/icons/file-plus.svg" alt=""></button>
+        <button id="expand-all" type="button" class="text-tool" aria-label="全部展开">
+          <img id="expand-all-icon" src="/assets/icons/expand-all.svg" alt=""><span id="expand-all-label">全部展开</span>
+        </button>
+      </div>
+      <div id="folder-tree" class="folder-tree" role="tree" aria-label="我的笔记目录"><p class="tree-empty">登录后显示笔记目录</p></div>
+      <div class="vault-foot">笔记在小程序和网页中使用同一账户</div>
+    </aside>
+
+    <main class="note-pane" aria-label="笔记内容">
+      <section id="note-empty" class="note-empty" aria-label="尚未打开笔记"></section>
+      <article id="note-view" class="note-view" hidden>
+        <div class="note-topline"><span id="note-folder" class="note-path"></span><button id="edit-note" type="button" class="quiet-button">编辑笔记</button></div>
+        <h2 id="note-title"></h2><div id="note-content" class="note-content"></div>
+        <div id="note-attachments" class="note-attachments" hidden>附件可在小程序中查看</div>
+      </article>
+      <form id="note-editor" class="note-editor" hidden>
+        <div class="note-topline"><label for="edit-folder">所属目录</label><select id="edit-folder"></select></div>
+        <input id="edit-title" type="text" placeholder="笔记标题" maxlength="80" required>
+        <textarea id="edit-content" placeholder="写点东西…" spellcheck="true"></textarea>
+        <div class="editor-actions"><span id="save-status" role="status"></span><button id="cancel-edit" type="button" class="quiet-button">取消</button><button id="save-note" type="submit" class="primary-button">保存笔记</button></div>
+      </form>
+    </main>
+
+    <aside class="chat-pane" aria-label="知知对话">
+      <div class="chat-heading"><div class="chat-title"><img src="/assets/zhizhi-char.png" alt=""><div><strong>知知</strong><small>和你的笔记继续思考</small></div></div><div class="mode-switch" role="radiogroup" aria-label="Agent 模式"><button type="button" data-mode="think" class="selected" aria-pressed="true">思考</button><button type="button" data-mode="record" aria-pressed="false">纯记录</button></div></div>
+      <div id="chat-messages" class="chat-messages" role="log" aria-live="polite"><div class="chat-intro">说点什么，知知会结合你的笔记处理。</div></div>
+      <form id="chat-form" class="chat-composer"><label for="chat-input" class="sr-only">发消息给知知</label><textarea id="chat-input" rows="2" placeholder="发消息给知知…" maxlength="10000"></textarea><div class="composer-bottom"><button id="new-conversation" class="new-chat-pill" type="button" aria-label="下一条消息开启新对话" aria-pressed="false">新</button><span id="chat-hint">回复由 AI 生成，重要信息请核对</span><button id="send-message" class="send-button" type="submit" aria-label="发送">↑</button></div></form>
+    </aside>
+  </div>
+
+  <div id="auth-gate" class="auth-gate" hidden><section class="auth-card"><img src="/assets/zhizhi-char.png" alt="" width="64" height="49"><h2>用微信账户继续使用知知</h2><p id="auth-message">登录后，网页会读取与你的小程序关联的笔记。尚未完成账户关联时不会显示任何个人内容。</p><button id="login-button" type="button" class="primary-button">微信登录</button><a href="/knowknow/">返回官网</a></section></div>
+  <div id="profile-overlay" class="profile-overlay" hidden>
+    <section class="profile-panel" role="dialog" aria-modal="true" aria-labelledby="profile-title">
+      <header class="profile-panel-header"><div><span class="profile-kicker">账户信息</span><h2 id="profile-title">个人信息</h2></div><button id="close-profile" class="profile-close" type="button" aria-label="关闭个人信息">×</button></header>
+      <div class="profile-panel-body">
+        <section class="profile-section" aria-labelledby="memory-title">
+          <div class="profile-section-header"><div><span class="profile-kicker">长期背景与偏好</span><h3 id="memory-title">AI 了解的我</h3></div><span id="memory-count" class="profile-count">读取中…</span></div>
+          <p class="profile-description">这里展示知知用于理解你长期背景和偏好的记忆。</p>
+          <div id="profile-memory-list" class="profile-memory-list"><p class="profile-loading">正在读取…</p></div>
+        </section>
+        <section class="profile-section" aria-labelledby="membership-title">
+          <div class="profile-section-header"><div><span class="profile-kicker">使用额度</span><h3 id="membership-title">会员卡信息</h3></div></div>
+          <div id="membership-card" class="membership-card"><p class="profile-loading">正在读取…</p></div>
+        </section>
+        <p class="profile-footnote">会员开通与续费请在知知小程序中办理。</p>
+      </div>
+    </section>
+  </div>
+  <script src="/assets/markdown.js" defer></script>
+  <script src="/knowknow/app/app.js?v=20261028-path" defer></script>
+</body>
+</html>

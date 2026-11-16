@@ -1,0 +1,11 @@
+{
+  "name": "yuanfengxixi-website-source",
+  "version": "0.1.0",
+  "private": false,
+  "description": "Public static website source for yuanfengxixi.cn",
+  "license": "MIT",
+  "scripts": {
+    "build": "node build.cjs",
+    "check": "node build.cjs && node scripts/check-site-output.cjs"
+  }
+}

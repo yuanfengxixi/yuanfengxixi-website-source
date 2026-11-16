@@ -1,0 +1,16 @@
+dist/
+.DS_Store
+._*
+.env
+.env.*
+*.log
+node_modules/
+
+# Keep private operations and collected client data out of any future commits.
+seo-operations/
+.data/
+*CLIENT-REGISTRY*
+*监测结果*
+*监测问题*
+*增长监测*
+知乎投稿/
